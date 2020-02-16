@@ -19,13 +19,11 @@ LSTM_CELLS = 50
 steps = 2
 
 
-#/content/drive/My Drive/didactoriko/python/LSTM_BIDIRECTIONAL_RNN/my_log_acron.txt
-with open('/content/drive/My Drive/didactoriko/python/LSTM_BIDIRECTIONAL_RNN/train_log.txt', 'r') as myfile:
+#read the file with train data
+with open('train_log.txt', 'r') as myfile:
     data=myfile.read()
 
-#Just for Eating/Drinking
-#data = data.replace('Eating/Drinking','EatDrink')
-
+#be careful with special characters
 tokenizer = Tokenizer(filters='!"#$%&()*+,-./:;<=>?@[\\]^`{|}~\t\n')
 #reads the words in data and gives an index for every words based on frequency
 tokenizer.fit_on_texts([data])
@@ -45,8 +43,8 @@ for i in range(2, len(encoded)):
 	sequence = encoded[i-2:i+1]
 	sequences.append(sequence)
 print('Total Sequences: %d' % len(sequences))
-print('Sequences before padding: \n')
-print(sequences)
+#print('Sequences before padding: \n')
+#print(sequences)
 
 max_length = max([len(seq) for seq in sequences])    #max_length is 3
 # Pad sequence to be of the same length
@@ -54,19 +52,16 @@ max_length = max([len(seq) for seq in sequences])    #max_length is 3
 # 'pre' or 'post': pad either before or after each sequence
 sequences = pad_sequences(sequences, maxlen=max_length, padding='pre')
 print('Max Sequence Length: %d' % max_length)   													
-print('Sequences after padding: \n')
-print(sequences)
+#print('Sequences after padding: \n')
+#print(sequences)
 #convert list to array to get X,y train
 sequences = array(sequences)
 print('Sequences array: \n')
 print(sequences)
 X, y = sequences[:,:-1],sequences[:,-1]
 
-
 #convert y to binary vectors
 y = to_categorical(y, num_classes=vocab_size)
-
-
 
 model = Sequential()
 #the first layer
@@ -91,15 +86,12 @@ model.fit(X, y, epochs=100, verbose=2,batch_size = 50)
 print('LSTM Network Evaluation:\n')
 print(X)
 print(y)
-loss = model.evaluate(X, y, verbose=0)
 
-print(loss)
+#loss and accuracy
+score = model.evaluate(X, y, verbose=0)
+print(score)
 
 print(model.summary())
-model.save('/content/drive/My Drive/didactoriko/python/LSTM_BIDIRECTIONAL_RNN/lstm_model.h5')  # creates a HDF5 file 
+
+model.save('lstm_model.h5')  # creates a HDF5 file 
 del model  # deletes the existing model
-#print('X: ')
-#print(X)
-#print('shape: ')
-#print(X.shape[0],X.shape[1])
-#this is #ofsamples, 2 -timesteps, 1-output feautre
