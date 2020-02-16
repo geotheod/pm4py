@@ -6,33 +6,21 @@ import csv
 
 
 
-#open empty file to write
+#open empty files to write train and test data
 train_file = open("/content/drive/My Drive/didactoriko/python/LSTM_BIDIRECTIONAL_RNN/train_log.txt","w")
 test_file = open("/content/drive/My Drive/didactoriko/python/LSTM_BIDIRECTIONAL_RNN/test_log.txt","w")
 #import event log
 log = xes_import_factory.apply('/content/drive/My Drive/didactoriko/datasets/BPI Challenge 2017.xes')
 #print(log)
 
+#get the activities
 activities = attributes_filter.get_attribute_values(log, "concept:name")
 print(activities)
-#act = 0
-#for key in activities:
-#  print(act)
-#  act = act + activities[key]
-#print(act)
+
 #sort event log based on timestamp
 log = sorting.sort_timestamp(log)
 
-
-#str_trace_attributes = []
-#str_event_attributes = ["concept:name"]
-#num_trace_attributes = []
-#num_event_attributes = ["amount"]
-#data, feature_names = get_log_representation.get_representation(
-#                           log, str_trace_attributes, str_event_attributes,
-#                           num_trace_attributes, num_event_attributes)
-
-#print(data)
+#split data from event log - 80% for train and 20% for test
 i=0
 print(len(log))
 for trace in log:
