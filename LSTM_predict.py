@@ -87,24 +87,3 @@ for i in tokenizer.word_index:
 
 #load trained model
 model = load_model('bidirectional_model.h5')
-
-
-print('Bidirectional Results: ')
-print ('\n') 
-
-#Evaluation without function
-cnt = 0
-for i in range(len(X)):
-  yhat = model.predict_classes(X[i].reshape(1,2,1))
-  #print('Expected:', y[i], 'Predicted', yhat)
-  if (y[i] == yhat):
-    cnt += 1
-
-print('Total successful: ',cnt,' out of ', len(X), 'Percentage: ', cnt/len(X))
-
-# Evaluate network with model.evaluate() function
-X = X.reshape((X.shape[0], X.shape[1], 1))
-score = model.evaluate(X, yl, verbose=0)
-print('Bidirectional Network Evaluation:\n')
-print(score)
-
