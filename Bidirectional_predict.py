@@ -44,11 +44,6 @@ X, y = sequences[:,:-1],sequences[:,-1]
 yl = to_categorical(y, num_classes=vocab_size)
 
 #load trained model
-model = load_model('lstm_model.h5')
-
-
-
-#load trained model
 model = load_model('bidirectional_model.h5')
 
 
