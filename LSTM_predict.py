@@ -85,5 +85,3 @@ for i in tokenizer.word_index:
   #print(tokenizer.index_word)
   print(generate_seq(model, tokenizer, max_length-1, i , 3))
 
-#load trained model
-model = load_model('bidirectional_model.h5')
